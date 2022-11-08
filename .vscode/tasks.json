@@ -1,0 +1,75 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "[Run] Development",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "(started server on .*|compiling .*)",
+          "endsPattern": "compiled .*"
+        }
+      }
+    },
+    {
+      "label": "[Build] Production",
+      "type": "npm",
+      "script": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "[Run] Production",
+      "type": "npm",
+      "script": "start",
+      "dependsOn": ["[Build] Production"],
+      "dependsOrder": "sequence",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "[Docs] Development",
+      "type": "npm",
+      "script": "docs:dev",
+      "problemMatcher": []
+    },
+    {
+      "label": "[Docs] Build",
+      "type": "npm",
+      "script": "docs:build",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Analyze production bundle",
+      "type": "npm",
+      "script": "analyze",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run tests",
+      "type": "npm",
+      "script": "test",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run linters",
+      "type": "npm",
+      "script": "lint",
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}

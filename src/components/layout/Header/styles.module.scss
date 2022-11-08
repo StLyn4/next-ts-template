@@ -1,0 +1,33 @@
+@use '../../../styles/mixins';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: #FFF;
+  border-bottom: 1px solid #E8E9EC;
+  padding: 8px 18px;
+  z-index: 20;
+
+  @include mixins.responsive(desktop) {
+    padding: 16px 42px;
+  }
+
+  &.sticky {
+    position: sticky;
+    top: 0;
+  }
+
+  .navigation-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 24px;
+  }
+
+  @include mixins.transition();
+}

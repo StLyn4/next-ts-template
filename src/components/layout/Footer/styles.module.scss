@@ -1,0 +1,17 @@
+@use '../../../styles/mixins';
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 15px 30px;
+  background: #373737;
+  z-index: 10;
+
+  .text {
+    color: #979797;
+    font-size: 15px;
+    line-height: 18px;
+  }
+}

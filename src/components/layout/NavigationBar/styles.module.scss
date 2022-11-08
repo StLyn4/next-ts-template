@@ -1,0 +1,18 @@
+@use '../../../styles/mixins';
+
+.navigation-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: min(400px, 70vw);
+  max-height: 100vh;
+  width: min(400px, 70vw);
+  height: var(--viewport-height);
+  background: #FFF;
+  border-radius: 10px 0 0 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: auto;
+  padding: 30px 10px;
+
+  @include mixins.transition();
+}

@@ -1,0 +1,83 @@
+$default-font-family: 'Roboto', Helvetica, Arial, sans-serif;
+
+@mixin h4 {
+  font-family: $default-font-family;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 32px;
+  line-height: 150%;
+  letter-spacing: 0.08em;
+}
+
+@mixin h6 {
+  font-family: $default-font-family;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 150%;
+}
+
+@mixin subtitle-1 {
+  font-family: $default-font-family;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 150%;
+}
+
+@mixin subtitle-2 {
+  font-family: $default-font-family;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 150%;
+}
+
+@mixin body-1 {
+  font-family: $default-font-family;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+@mixin body-2 {
+  font-family: $default-font-family;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+}
+
+@mixin button-1 {
+  font-family: $default-font-family;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+@mixin button-2 {
+  font-family: $default-font-family;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  letter-spacing: 0.066px;
+}
+
+@mixin caption {
+  font-family: $default-font-family;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+}
+
+@mixin overline {
+  font-family: $default-font-family;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 150%;
+}

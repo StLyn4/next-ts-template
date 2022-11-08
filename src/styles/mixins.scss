@@ -1,0 +1,116 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'variables';
+@use 'themes';
+
+/// Адаптивные стили
+///
+/// @group helpers
+/// @param {Arglist} $breakpoints - [tablet | mobile | desktop] Устройства для которых применяются стили
+/// @content Стили для выбранных устройств
+/// @output Содержимое блока, если ширина вьюпорта соответствует всем условиям
+///
+/// @example scss - Применить свойства `background` и `border` для класса `.foo` в зависимости от устройства
+///   .foo {
+///     // Общие стили для всех типов экранов
+///     background: red;
+///
+///     @include mixins.responsive(mobile) {
+///       // Стили только для мобильных устройств (где ширина вьюпорта не больше 576px)
+///       background: blue;
+///     }
+///
+///     @include mixins.responsive(tablet) {
+///       // Стили только для планшетов (где ширина вьюпорта между 576px и 768px)
+///       background: green;
+///     }
+///
+///     @include mixins.responsive(desktop) {
+///       // Стили только для ПК (где ширина вьюпорта больше 768px)
+///       border: thick double #FEFEFE;
+///     }
+///   }
+@mixin responsive($breakpoints...) {
+  @if list.index($breakpoints, mobile) {
+    @media #{variables.$mobile-condition} {
+      @content;
+    }
+  }
+
+  @if list.index($breakpoints, tablet) {
+    @media #{variables.$tablet-condition} {
+      @content;
+    }
+  }
+
+  @if list.index($breakpoints, desktop) {
+    @media #{variables.$desktop-condition} {
+      @content;
+    }
+  }
+}
+
+/// Плавные переходы для выбранных свойств селектора
+///
+/// @group helpers
+/// @param {Number} $duration [300ms] - Скорость перехода
+/// @param {List} $properties [all] - Список свойств, которые будут анимированны
+/// @output cubic-bezier `transition`
+///
+/// @example scss - Применить свойство `transition` для классов `.foo` и `.bar`
+///   .foo {
+///     @include mixins.transition(1s);
+///   }
+///   .bar {
+///     @include mixins.transition();
+///   }
+@mixin transition($duration: variables.$transition-time, $properties: all) {
+  $timing-function: variables.$transition-timing-function;
+  $args: variables.$transition-timing-function-args;
+
+  transition-duration: $duration;
+  transition-timing-function: #{$timing-function}(#{$args});
+  transition-property: list.join($properties, [], $separator: comma, $bracketed: false);
+}
+
+$-current-theme: null;
+
+/// Провайдер тем для themed-value
+///
+/// @group helpers
+/// @param {Map} $themes [themes.$themes] - Темы, которые могут быть использованы
+///
+/// @example scss - Применение чёрного цвета текста для класса foo
+///   .foo {
+///     @include mixins.themed() {
+///       color: mixins.themed-value('black');
+///     }
+///   }
+@mixin themed($themes: themes.$themes) {
+  @each $theme-name, $theme in $themes {
+    html[data-theme='#{$theme-name}'] & {
+      $-current-theme: $theme !global;
+      @content;
+      $-current-theme: null !global;
+    }
+  }
+}
+
+/// Получает значение переменной текущей темы
+///
+/// @group helpers
+/// @param {String} $key - Название переменной
+/// @param {String} $fallback-theme ['light'] - Тема, которая будет использована, если переменная не найдена
+/// @returns {*} - Значение переменной в текущей теме
+/// @see themed
+@function themed-value($key, $fallback-theme: 'light') {
+  @if not $-current-theme {
+    @error 'themed-value(...) должен использоваться только внутри themed(...)';
+  }
+
+  @if map.has-key($-current-theme, $key) {
+    @return map-get($-current-theme, $key);
+  } @else {
+    @return map-get(themes.$themes, $fallback-theme, $key);
+  }
+}

@@ -1,0 +1,10 @@
+$transition-time: 300ms;
+$transition-timing-function: cubic-bezier;
+$transition-timing-function-args: (0.645, 0.045, 0.355, 1);
+
+$mobile-breakpoint: 576px;
+$tablet-breakpoint: 768px;
+
+$mobile-condition: 'only screen and (max-width: #{$mobile-breakpoint})';
+$tablet-condition: 'only screen and (min-width: #{$mobile-breakpoint + 1px}) and (max-width: #{$tablet-breakpoint})';
+$desktop-condition: 'only screen and (min-width: #{$tablet-breakpoint + 1px})';

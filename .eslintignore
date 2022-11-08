@@ -1,0 +1,24 @@
+# Зависимости:
+/node_modules/
+/.pnp/
+/.pnp.js
+
+# Результаты тестирования:
+/coverage/
+
+# Next.js:
+/.next/
+/build/
+/out/
+/next-env.d.ts
+
+# Vercel:
+.vercel/
+
+# Сборка Storybook:
+/storybook-static/
+
+# Временные файлы:
+/temp/
+/.tmp/
+/tmp/

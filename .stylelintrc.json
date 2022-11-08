@@ -1,0 +1,25 @@
+{
+  "extends": ["stylelint-config-recommended-scss", "stylelint-config-css-modules"],
+  "rules": {
+    "max-line-length": 120,
+    "indentation": 2,
+    "linebreaks": "unix",
+    "max-empty-lines": 1,
+    "no-empty-first-line": true,
+    "no-eol-whitespace": true,
+    "no-extra-semicolons": true,
+    "function-comma-space-after": "always",
+    "function-comma-space-before": "never",
+    "selector-combinator-space-after": "always",
+    "selector-combinator-space-before": "always",
+    "string-quotes": "single",
+    "declaration-block-trailing-semicolon": "always",
+    "declaration-block-single-line-max-declarations": 0,
+    "color-named": "never",
+    "color-hex-case": "upper",
+    "color-hex-length": "short",
+    "unit-disallowed-list": ["rem"],
+    "at-rule-disallowed-list": "import",
+    "scss/function-no-unknown": null
+  }
+}

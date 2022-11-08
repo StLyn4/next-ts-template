@@ -1,0 +1,90 @@
+{
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
+  "stylelint.validate": ["css", "scss", "less"],
+  "cssModules.camelCase": true,
+  "auto-close-tag.insertSpaceBeforeSelfClosingTag": true,
+  "vscodeReactRefactor.functionType": "arrowFunction",
+  "i18n-ally.enabledFrameworks": ["react", "next-translate"],
+  "i18n-ally.extract.autoDetect": true,
+  "i18n-ally.extract.keygenStyle": "kebab-case",
+  "i18n-ally.keepFulfilled": true,
+  "i18n-ally.sourceLanguage": "en",
+  "i18n-ally.displayLanguage": "en",
+  "i18n-ally.namespace": true,
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.localesPaths": ["locales"],
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+  "git.followTagsWhenSync": true,
+  "editor.rulers": [120],
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "files.trimTrailingWhitespace": true,
+  "files.exclude": {
+    "next-env.d.ts": true
+  },
+  "search.exclude": {
+    "node_modules/": true,
+    "temp/": true,
+    ".tmp/": true,
+    "tmp/": true,
+    "coverage/": true,
+    "build/": true,
+    "dist/": true,
+    "out/": true,
+    ".next/": true,
+    "storybook-static/": true,
+    "next-env.d.ts": true
+  },
+  "files.associations": {
+    ".markdownlint.json": "jsonc",
+    ".markdownlintignore": "ignore"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+  "[sass]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+  "[less]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "editor.rulers": []
+  }
+}

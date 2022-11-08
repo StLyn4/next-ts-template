@@ -1,0 +1,111 @@
+@use '../../../styles/mixins';
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  user-select: none;
+  position: relative;
+
+  @include mixins.transition();
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    opacity: 1;
+  }
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    position: absolute;
+    height: calc(100% - 8px);
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+  }
+
+  &.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  &.green {
+    background: #0E9285;
+    color: #FFF;
+    --vector-color: #FFF;
+
+    &:hover {
+      background: #0B8074;
+    }
+  }
+
+  &.green-outlined {
+    background: #FFF;
+    border: 1px solid #0E9285;
+    color: #0E9285;
+    --vector-color: #0E9285;
+
+    &:hover {
+      border: 1px solid #0B8074;
+      color: #0B8074;
+      --vector-color: #0B8074;
+    }
+  }
+
+  &.gray-outlined {
+    background: #FFF;
+    border: 1px solid #C4C4C4;
+    color: #000;
+    --vector-color: #000;
+
+    &:hover {
+      background: #EEE;
+    }
+  }
+
+  &.red {
+    background: #FF0101;
+    color: #FFF;
+    --vector-color: #FFF;
+
+    &:hover {
+      background: #E30303;
+    }
+  }
+
+  &.classic {
+    background: #F0F0F0;
+    border: 0.5px solid #979797;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000;
+    --vector-color: #000;
+
+    &:hover {
+      background: #E5E5E5;
+    }
+  }
+
+  &.small-padding {
+    padding: 8px;
+  }
+
+  &.normal-padding {
+    padding: 8px 34px;
+  }
+
+  &.large-padding {
+    padding: 12px 24px;
+  }
+}

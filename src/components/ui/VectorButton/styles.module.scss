@@ -1,0 +1,26 @@
+@use '../../../styles/mixins';
+
+.vector-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    bottom: -8px;
+    left: -8px;
+    border-radius: 50%;
+  }
+
+  &.green {
+    --vector-color: #C4C4C4;
+
+    &:hover:not(.disabled) {
+      --vector-color: #0B8074;
+    }
+  }
+}

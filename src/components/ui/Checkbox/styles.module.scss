@@ -1,0 +1,107 @@
+@use '../../../styles/mixins';
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .checkbox-border {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include mixins.transition(150ms);
+
+    &.checkbox {
+      min-width: 18px;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #0E9285;
+      border-radius: 2px;
+      --vector-color: #0E9285;
+
+      &.disabled {
+        border: 1px solid #E5E5E5;
+        --vector-color: #E5E5E5;
+      }
+    }
+
+    &.radio {
+      min-width: 18px;
+      width: 18px;
+      height: 18px;
+      background: #FFF;
+      border: 1px solid #0B8074;
+      border-radius: 50%;
+
+      .dot {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 12px;
+        width: 12px;
+        background: #0B8074;
+        border-radius: 50%;
+        opacity: 0;
+
+        @include mixins.transition(150ms);
+
+        &.checked {
+          background: #0E9285;
+          opacity: 1;
+        }
+
+        &.disabled {
+          background: #E5E5E5;
+        }
+      }
+
+      &.disabled {
+        border: 1px solid #E5E5E5;
+      }
+    }
+
+    &.toggle {
+      height: 24px;
+      width: 47px;
+      min-width: 47px;
+      background: #FFF;
+      border: 1px solid #D5D6D5;
+      border-radius: 30px;
+
+      .dot {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        background: #C4C4C4;
+        border-radius: 50%;
+        transform: translateX(-11px);
+
+        @include mixins.transition(150ms);
+
+        &.checked {
+          background: #0E9285;
+          transform: translateX(11px);
+
+          &.disabled {
+            background: #C4C4C4;
+          }
+        }
+      }
+
+      &.checked:not(.disabled) {
+        border: 1px solid #0E9285;
+      }
+    }
+  }
+
+  .text {
+    &.gray {
+      color: #949494;
+    }
+
+    @include mixins.transition(150ms);
+  }
+}

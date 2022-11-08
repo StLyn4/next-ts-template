@@ -1,0 +1,73 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# --- Настройки и сообщения --- #
+release_branch='master'
+policy_message="Отказано в попытке деструктивного воздействия на ветку '$release_branch' (удаление ветки / коммита)!"
+repush_message="Пожалуйста, используйте 'git push' снова для синхронизации версий"
+# ----------------------------- #
+
+release_branch_ref="refs/heads/$release_branch"
+empty_sha='0000000000000000000000000000000000000000'
+
+# Печатает сообщение об ошибке в stderr и завершает выполнение скрипта
+throw_error() {
+  echo Произошла ошибка: "$*" >&2
+  exit 1
+}
+
+# Проверяет является ли коммит $1 родителем коммита $2
+commit_is_ancestor() {
+  if [ "$1" = "$empty_sha" ]; then
+    # Пустой SHA - всегда родитель, нужно только убедиться, что второй SHA существует
+    git cat-file -e $2^{commit}
+  else
+    # Остальное же проверяем
+    command git merge-base --is-ancestor "$1" "$2"
+  fi
+}
+
+# Проверяет имеет ли коммит тег с версий в формате "vx.x.x", где x - число
+commit_has_version_tag() {
+  command git tag --points-at "$1" | while IFS= read -r tag; do
+    if echo "$tag" | grep -Eq "^[0-9]+\.[0-9]+\.[0-9]+"; then
+      return 1
+    fi
+  done
+
+  test $? -eq 1
+}
+
+# Увеличивает версию проекта, если это необходимо
+increment_project_version() {
+  if ! commit_has_version_tag "$1"; then # обновляем версию только если мы этого не делали ранее
+    active_branch_ref=$(command git symbolic-ref HEAD)
+    if [ "$active_branch_ref" != "$release_branch_ref" ]; then
+      command git checkout --quiet "$release_branch_ref"
+    fi
+
+    # Непосредственно обновление версий
+    command npm run release -- patch --no-git.push
+    echo $repush_message
+
+    if [ "$active_branch_ref" != "$release_branch_ref" ]; then
+      command git checkout --quiet "$active_branch_ref"
+    fi
+  fi
+}
+
+# Перебираем все изменённые ветки
+while IFS=' ' read -r local_ref local_sha remote_ref remote_sha; do
+  if [ "$remote_ref" = "$release_branch_ref" ]; then # мы работаем с веткой $release_branch
+    if [ "$local_sha" = "$empty_sha" ]; then
+      # Попытка удалить ветку
+      throw_error $policy_message
+    elif ! commit_is_ancestor "$remote_sha" "$local_sha"; then
+      # Мы потеряли часть коммитов, возможен force-push
+      throw_error $policy_message
+    else
+      # Всё нормально, обновляем версию
+      increment_project_version "$local_ref"
+    fi
+  fi
+done

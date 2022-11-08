@@ -1,0 +1,98 @@
+@use '../../../styles/mixins';
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    background: #FFF;
+    border: 1.5px solid #E5E5E5;
+    border-radius: 4px;
+    padding: 12px 16px;
+
+    @include mixins.transition();
+
+    &.red-border {
+      border: 1.5px solid #FF0101;
+    }
+
+    &.disabled {
+      background: #F0F0F0;
+    }
+
+    .field {
+      background: transparent;
+      border: transparent;
+      border-radius: 0;
+      color: #999;
+      height: 100%;
+      width: 100%;
+      resize: none;
+      padding: 0;
+
+      @include mixins.transition();
+
+      &:focus {
+        color: #000;
+        outline: none;
+      }
+
+      &:disabled {
+        opacity: 1;
+      }
+
+      &::placeholder {
+        letter-spacing: -0.03em;
+        color: #C4C4C4;
+      }
+
+      // Отключение доп. кнопок в Chrome, Safari, Edge, Opera
+      &:before,
+      &::-webkit-search-decoration,
+      &::-webkit-search-cancel-button,
+      &::-webkit-search-results-button,
+      &::-webkit-search-results-decoration {
+        display: none;
+      }
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      // Отключение доп. кнопок в Firefox
+      &[type='number'] {
+        -moz-appearance: textfield;
+      }
+    }
+  }
+
+  .error-anchor {
+    position: relative;
+    z-index: 20;
+
+    .error-box {
+      position: absolute;
+      display: flex;
+      width: 100%;
+      margin-top: 8px;
+      background: #FFF;
+      padding: 12px 16px;
+      border-radius: 4px;
+      filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.14));
+
+      .text {
+        font-size: 14px;
+        line-height: 16px;
+        color: #FF0101;
+        overflow-wrap: break-word;
+      }
+    }
+  }
+}

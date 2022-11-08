@@ -1,0 +1,23 @@
+@use '../../../styles/mixins';
+
+.linear-progress-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  .progress-background {
+    width: 100%;
+
+    .progress {
+      border-radius: 20.5px;
+
+      @include mixins.transition();
+    }
+  }
+
+  .text {
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 18px;
+  }
+}

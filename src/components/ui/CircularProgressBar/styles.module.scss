@@ -1,0 +1,23 @@
+@use '../../../styles/mixins';
+
+.circular-progress-bar {
+  .background {
+    fill: none;
+
+    @include mixins.transition();
+  }
+
+  .progress {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+
+    @include mixins.transition();
+  }
+
+  .text {
+    font-weight: bold;
+    font-size: 12px;
+    fill: #000;
+  }
+}

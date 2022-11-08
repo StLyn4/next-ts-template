@@ -1,0 +1,102 @@
+{
+  "version": "1.2",
+  "profiles": [
+    {
+      "id": "abfef227-e983-4bec-bf08-0027b681413b",
+      "name": "next-translate",
+      "keyNamingPattern": "SNAKE_CASE_PATTERN",
+      "sink": {
+        "id": "075900bf-242e-4c11-b9d7-10e04e1c12e3",
+        "type": "namespaced",
+        "translationsDirectory": "$PROJECT_DIR$/locales",
+        "fileType": "json",
+        "defaultLocale": "en",
+        "namespaces": ["common", "components", "home-page", "second-page"],
+        "outputFilenameTemplate": "%locale%/%namespace%.json",
+        "nestingType": "DOT",
+        "placeholderFormatterName": "I18NEXT"
+      },
+      "sources": [
+        {
+          "id": "6f92989f-ad3b-463b-9587-379fc189b662",
+          "type": "jsx",
+          "scopeName": "Sources",
+          "scopePattern": "",
+          "defaultReplacementTemplate": "t('%namespace%:%key%', %map%)",
+          "attributeReplacementTemplate": "",
+          "inlineTagsReplacementTemplate": "",
+          "recognizedReplacementTemplates": [],
+          "inlineTagNames": [
+            "small",
+            "tt",
+            "big",
+            "sub",
+            "img",
+            "strong",
+            "code",
+            "data",
+            "samp",
+            "wbr",
+            "del",
+            "slot",
+            "sup",
+            "br",
+            "output",
+            "abbr",
+            "a",
+            "b",
+            "acronym",
+            "bdi",
+            "meter",
+            "var",
+            "em",
+            "i",
+            "label",
+            "bdo",
+            "kbd",
+            "dfn",
+            "ins",
+            "ruby",
+            "input",
+            "q",
+            "s",
+            "u",
+            "cite",
+            "progress",
+            "time",
+            "mark",
+            "span"
+          ],
+          "translatableAttributeNames": ["alt", "placeholder", "label", "title", "aria-label"],
+          "skipDefaultNamespace": false,
+          "inlineTagHandler": "I18NEXT"
+        }
+      ]
+    }
+  ],
+  "ignores": {
+    "valuesInProject": ["use strict"],
+    "valuesInFile": {},
+    "filesInProject": [],
+    "unignoredFunctionNames": [],
+    "unignoredFunctionArguments": {},
+    "ignoredArrayKeys": [
+      "template",
+      "date",
+      "dateFormat",
+      "el",
+      "query",
+      "type",
+      "sql",
+      "layout",
+      "component",
+      "condition",
+      "name",
+      "selector",
+      "id",
+      "class",
+      "key",
+      "middleware"
+    ]
+  }
+}

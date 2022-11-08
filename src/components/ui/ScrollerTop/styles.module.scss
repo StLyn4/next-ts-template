@@ -1,0 +1,32 @@
+@use '../../../styles/mixins';
+
+.scroller-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0E9285;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  transform: translate(150%, -50%) rotate(90deg);
+  z-index: 100;
+  box-shadow: rgba(0, 0, 0, 0.07) 0 1px 1px, rgba(0, 0, 0, 0.07) 0 2px 2px, rgba(0, 0, 0, 0.07) 0 4px 4px,
+    rgba(0, 0, 0, 0.07) 0 8px 8px, rgba(0, 0, 0, 0.07) 0 16px 16px;
+
+  @include mixins.transition();
+  @include mixins.themed() {
+    --vector-color: #{mixins.themed-value('white')};
+  }
+
+  &.show {
+    transform: translate(-50%, -50%) rotate(90deg);
+
+    &:hover {
+      background: #0B8074;
+      transform: translate(-50%, calc(-50% - 10px)) rotate(90deg);
+    }
+  }
+}

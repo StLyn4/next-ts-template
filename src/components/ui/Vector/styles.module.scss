@@ -1,0 +1,23 @@
+@use '../../../styles/variables';
+@use '../../../styles/mixins';
+
+.vector {
+  display: flex;
+
+  @include mixins.transition();
+  @include mixins.themed() {
+    --fallback-color: #{mixins.themed-value('red')};
+  }
+
+  & > svg {
+    height: 100%;
+    user-select: none;
+
+    &,
+    *[color],
+    *[fill],
+    *[stroke] {
+      @include mixins.transition(variables.$transition-time, color fill stroke);
+    }
+  }
+}

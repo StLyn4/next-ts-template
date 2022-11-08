@@ -1,0 +1,19 @@
+# Зависимости:
+/node_modules/
+/.pnp/
+
+# Next.js:
+/.next/
+/build/
+/out/
+
+# Vercel:
+.vercel/
+
+# Сборка Storybook:
+/storybook-static/
+
+# Временные файлы:
+/temp/
+/.tmp/
+/tmp/

@@ -1,0 +1,18 @@
+@use 'utils/json';
+@use 'variables';
+@use 'themes';
+
+:export {
+  transitionTime: variables.$transition-time;
+  transitionTimingFunction: variables.$transition-timing-function;
+  transitionTimingFunctionArgs: json.stringify(variables.$transition-timing-function-args);
+
+  mobileBreakpoint: variables.$mobile-breakpoint;
+  tabletBreakpoint: variables.$tablet-breakpoint;
+
+  mobileCondition: variables.$mobile-condition;
+  tabletCondition: variables.$tablet-condition;
+  desktopCondition: variables.$desktop-condition;
+
+  themes: json.stringify(themes.$themes);
+}

@@ -1,0 +1,28 @@
+@use '../mixins';
+@use '../text';
+
+.title {
+  @include text.h4;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+
+  &.column {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.section {
+  padding: 0 20px;
+
+  .title {
+    @include text.h6;
+    text-align: left;
+  }
+}

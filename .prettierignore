@@ -1,0 +1,28 @@
+# Зависимости:
+/node_modules/
+/.pnp/
+/.pnp.js
+
+# Результаты тестирования:
+/coverage/
+
+# Next.js:
+/.next/
+/build/
+/out/
+
+# Vercel:
+.vercel/
+
+# Сборка Storybook:
+/storybook-static/
+
+# Lock-файлы:
+yarn.lock
+package-lock.json
+
+# JS/TS (их обработкой занимается ESLint):
+*.js
+*.jsx
+*.ts
+*.tsx

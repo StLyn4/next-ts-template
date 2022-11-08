@@ -1,0 +1,153 @@
+@use 'sass:string';
+@use 'sass:list';
+
+/// Получает символ строки в заданной позиции
+///
+/// @param {String} $string - Строка
+/// @param {Number} $string - Позиция
+/// @returns {String} - Символ
+@function char-at($string, $index) {
+  @return string.slice($string, $index, $index);
+}
+
+/// Проверяет состоит ли строка с символов в нижнем регистре
+///
+/// @param {String} $string - Строка
+/// @returns {Bool} - Находится ли строка в нижнем регистре
+@function is-lower-case($string) {
+  @return $string == string.to-lower-case($string) and $string != string.to-upper-case($string);
+}
+
+/// Проверяет состоит ли строка с символов в верхнем регистре
+///
+/// @param {String} $string - Строка
+/// @returns {Bool} - Находится ли строка в верхнем регистре
+@function is-upper-case($string) {
+  @return $string == string.to-upper-case($string) and $string != string.to-lower-case($string);
+}
+
+/// Проверяет состоит ли строка с буквенных символов
+///
+/// @param {String} $string - Строка
+/// @returns {Bool} - Состоит ли строка с буквенных символов
+@function is-alphabetic($string) {
+  @return string.to-lower-case($string) != string.to-upper-case($string);
+}
+
+/// Проверяет состоит ли строка с цифр
+///
+/// @param {String} $string - Строка
+/// @returns {Bool} - Состоит ли строка с цифр
+@function is-numeric($string) {
+  $numbers: '0123456789';
+
+  @if string.length($string) == 0 {
+    @return false;
+  }
+
+  @each $char in $string {
+    @if not string.index($numbers, $char) {
+      @return false;
+    }
+  }
+
+  @return true;
+}
+
+/// Разделяет строку на массив слов
+///
+/// @param {String} $string - Строка
+/// @returns {List<String>} - Слова
+@function split-words($string) {
+  $words: ();
+  $word: '';
+
+  @for $i from 1 through string.length($string) {
+    $char: char-at($string, $i);
+    $prev-char: char-at($string, $i - 1);
+    $next-char: char-at($string, $i + 1);
+
+    $is-allowed-char: is-alphabetic($char) or is-numeric($char);
+    $is-upper-case-start-separator: is-upper-case($char) and not is-upper-case($prev-char);
+    $is-upper-case-end-separator: is-upper-case($char) and is-lower-case($next-char);
+    $is-upper-case-separator: $is-upper-case-start-separator or $is-upper-case-end-separator;
+    $is-numeric-separator: is-numeric($char) and not is-numeric($prev-char);
+    $is-separator: not $is-allowed-char or $is-upper-case-separator or $is-numeric-separator;
+
+    @if $is-separator and string.length($word) > 0 {
+      $words: list.append($words, $word);
+      $word: '';
+    }
+
+    @if $is-allowed-char {
+      $word: $word + $char;
+    }
+  }
+
+  @if string.length($word) > 0 {
+    $words: list.append($words, $word);
+  }
+
+  @return $words;
+}
+
+/// Переводит первый символ в верхний регистр, а остальное - в нижний
+///
+/// @param {String} $string - Строка
+/// @returns {List<String>} - Обработанная строка
+@function capitalize($string) {
+  @return string.to-upper-case(char-at($string, 1)) + string.to-lower-case(string.slice($string, 2));
+}
+
+/// Изменяет стиль написания строки в camelCase, snake_case, kebab-case или же PascalCase
+///
+/// @param {String} $string - Строка
+/// @param {String} $case - ['camel', 'snake', 'kebab', 'pascal'] Стиль написания
+/// @throw Неизвестный стиль строки: #{$case}
+/// @returns {List<String>} - Обработанная строка
+@function change-case($string, $case) {
+  $words: split-words($string);
+  $result: '';
+
+  @for $i from 1 through list.length($words) {
+    $word: list.nth($words, $i);
+
+    @if $case == 'camel' {
+      $result: $result + if($i == 1, string.to-lower-case($word), capitalize($word));
+    } @else if $case == 'snake' {
+      $result: $result + if($i == 1, string.to-lower-case($word), '_' + string.to-lower-case($word));
+    } @else if $case == 'kebab' {
+      $result: $result + if($i == 1, string.to-lower-case($word), '-' + string.to-lower-case($word));
+    } @else if $case == 'pascal' {
+      $result: $result + capitalize($word);
+    } @else {
+      @error 'Неизвестный стиль строки: #{$case}';
+    }
+  }
+
+  @return $result;
+}
+
+/// Оборачивает значение в двойные кавычки и экранирует содержимое, если необходимо
+///
+/// @param {*} $value - Значение
+/// @returns {String} - Обёрнутое значение
+@function quote-wrap($value) {
+  $result: '';
+
+  @if type-of($value) == 'string' {
+    @for $i from 1 through string.length($value) {
+      $char: char-at($value, $i);
+
+      @if $char == '\\' or $char == '"' {
+        $result: $result + '\\';
+      }
+
+      $result: $result + $char;
+    }
+  } @else {
+    $result: $value;
+  }
+
+  @return '"#{$result}"';
+}

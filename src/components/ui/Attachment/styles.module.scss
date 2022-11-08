@@ -1,0 +1,17 @@
+@use '../../../styles/mixins';
+@use '../../../styles/text';
+
+.attachment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: #F0F5F5;
+  padding: 2px 8px;
+  border-radius: 4px;
+
+  .filename {
+    @include text.caption;
+    color: #000;
+  }
+}

@@ -1,0 +1,139 @@
+import React, { useState, useRef, useId, useEffect, useMemo } from 'react';
+import InlineSvg, { Props as InlineSvgProps } from 'react-inlinesvg';
+import classNames from 'classnames';
+
+import { useEvent } from 'app/lib/hooks';
+import { escapeRegExp, isUrlValid, pxToRem, deepMemo } from 'app/lib/utils';
+
+import styles from './styles.module.scss';
+
+// ----------------- Константы-настройки -----------------
+const COLOR_PROVIDER_SALT = '17bc6078-986b-408b-8335-2858b588bd13';
+const DEFAULT_VECTOR_FOLDER = '/images/vector';
+const COLOR_ATTRIBUTES = ['color', 'fill', 'stroke', 'stop-color'] as const satisfies readonly string[];
+const REPLACEABLE_COLORS = ['black', '#000000', '#000', '#replace'] as const satisfies readonly string[];
+// -------------------------------------------------------
+
+const colorAttributes = COLOR_ATTRIBUTES.map(escapeRegExp).join('|');
+const replaceColors = REPLACEABLE_COLORS.map(escapeRegExp).join('|');
+
+// Шаблон для поиска цвета под замену в аттрибутах и стилях
+const replaceColorsAttrRegExp = new RegExp(`(${colorAttributes})="(${replaceColors})"`, 'g');
+const replaceColorsCSSRegExp = new RegExp(`(${colorAttributes}): (${replaceColors})`, 'g');
+
+export type VectorSize = '100%' | number;
+
+export interface VectorProps {
+  /** Название векторного изображения с папки `assets/images/vector`, или же полный путь (URL) */
+  src: string;
+
+  /** Дополнительные CSS-классы для SVG-элемента */
+  className?: string;
+
+  /** Дополнительные CSS-классы для обёртки SVG-элемента */
+  containerClassName?: string;
+
+  /**
+   * Цвет изображения (заменяет собой цвета {@link REPLACEABLE_COLORS} в SVG)
+   *
+   * @remarks
+   * Можно использовать любые CSS-свойства цвета, в том числе переменные: `color="var(--my-color)"`
+   */
+  color?: string;
+
+  /** Размер SVG */
+  size?: VectorSize;
+
+  /** Иконка, которая будет отображаться при ошибке */
+  fallback?: string;
+}
+
+/**
+ * Замена цветов-шаблонов ({@link REPLACEABLE_COLORS}) на CSS-переменную
+ *
+ * @param svg - Содержимое SVG
+ * @returns Измененный SVG
+ */
+const colorPreProcessor = (svg: string): string => {
+  // Содержимое после замены цветов в аттрибутах
+  const precessedAttrs = svg.replace(replaceColorsAttrRegExp, (match: string, attr: string) => {
+    return `${attr}="var(--vector-color_${COLOR_PROVIDER_SALT})"`;
+  });
+
+  // Содержимое после замены цветов в стилях
+  return precessedAttrs.replace(replaceColorsCSSRegExp, (match: string, attr: string) => {
+    return `${attr}: var(--vector-color_${COLOR_PROVIDER_SALT})`;
+  });
+};
+
+/**
+ * Векторное изображение
+ *
+ * @remarks
+ * Для добавления новых изображений поместите их в папку `assets/images/vector`
+ */
+const Vector: React.FC<VectorProps> = ({
+  src,
+  className = '',
+  color = '#000',
+  size = '100%',
+  fallback = 'common/warning',
+}) => {
+  const [initialClassName, setInitialClassName] = useState('');
+  const [loaded, setLoaded] = useState(false);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const vectorId = useId();
+
+  const svgSrc = useMemo(() => isUrlValid(src) ? src : `${DEFAULT_VECTOR_FOLDER}/${src}.svg`, [src]);
+  const styleSafeVectorId = useMemo(() => vectorId.replace(/:/g, '-'), [vectorId]);
+  const sizeRem = useMemo(() => typeof size === 'number' ? pxToRem(size) : size, [size]);
+
+  const wrapperStyle: React.CSSProperties = useMemo(
+    () => ({
+      [`--vector-color_${COLOR_PROVIDER_SALT}`]: color, // переменная-провайдер для цвета изображения
+      width: sizeRem, // при загрузке компонент занимает 0x0 px,
+      height: sizeRem, // поэтому указываем размер явно
+    }),
+    [color, sizeRem],
+  );
+
+  const extraSvgProps: Partial<InlineSvgProps> = {};
+  if (className && loaded) {
+    extraSvgProps.className = classNames(initialClassName, className);
+  }
+
+  const handleLoaded = useEvent(() => {
+    const { current: svg } = svgRef;
+
+    if (!loaded && svg !== null) {
+      setInitialClassName(svg.getAttribute('class') || '');
+      setLoaded(true);
+    }
+  });
+
+  useEffect(() => {
+    setInitialClassName('');
+    setLoaded(false);
+  }, [src]);
+
+  return (
+    <span className={styles.vector} style={wrapperStyle}>
+      <InlineSvg
+        innerRef={svgRef}
+        onLoad={handleLoaded}
+        src={svgSrc}
+        preProcessor={colorPreProcessor}
+        width="100%"
+        height="100%"
+        cacheRequests
+        uniquifyIDs
+        uniqueHash={styleSafeVectorId}
+        {...extraSvgProps}
+      >
+        <Vector src={fallback} color="var(--fallback-color)" size={size} />
+      </InlineSvg>
+    </span>
+  );
+};
+
+export default deepMemo(Vector);
