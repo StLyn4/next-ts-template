@@ -1,0 +1,10 @@
+{
+  "locales": ["en", "ru"],
+  "defaultLocale": "en",
+  "localeDetection": true,
+  "pages": {
+    "*": ["components", "common"],
+    "/": ["home-page"],
+    "/second": ["second-page"]
+  }
+}

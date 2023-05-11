@@ -1,0 +1,23 @@
+@use '../../../styles/utils';
+
+.circular-progress-bar {
+  .background {
+    fill: none;
+
+    @include utils.transition();
+  }
+
+  .progress {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+
+    @include utils.transition();
+  }
+
+  .text {
+    font-weight: bold;
+    font-size: 12px;
+    fill: var(--color-black);
+  }
+}

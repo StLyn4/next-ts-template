@@ -1,0 +1,12 @@
+{
+  "git": {
+    "commitMessage": "[`${version}`] Изменение номера версии",
+    "requireCleanWorkingDir": false
+  },
+  "npm": {
+    "publish": false
+  },
+  "github": {
+    "release": true
+  }
+}

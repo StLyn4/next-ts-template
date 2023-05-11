@@ -1,0 +1,120 @@
+@use '../../../styles/utils';
+@use '../../../styles/text';
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  user-select: none;
+  border: 1px solid transparent;
+  position: relative;
+
+  @include text.button-1;
+  @include utils.transition();
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .tip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-emerald-300);
+    color: var(--color-emerald-300-contrast);
+    user-select: none;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 1000px;
+    padding: 0 0.5em;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(10px, -50%);
+
+    @include text.overline;
+  }
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    position: absolute;
+    height: calc(100% - 8px);
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+  }
+
+  &.type {
+    &-primary {
+      background: var(--color-slate-700);
+      color: var(--color-white);
+
+      &:hover {
+        background: var(--color-slate-800);
+      }
+
+      &:active {
+        background: var(--color-slate-900);
+      }
+
+      &.disabled {
+        background: var(--color-gray-200);
+        color: var(--color-gray-500);
+        pointer-events: none;
+      }
+    }
+
+    &-secondary {
+      background: var(--color-gray-50);
+      border-color: var(--color-slate-200);
+      color: var(--color-gray-500);
+
+      &:hover {
+        background: var(--color-gray-100);
+        border-color: var(--color-slate-300);
+      }
+
+      &:active {
+        box-shadow: inset 0 2px 4px rgba(var(--color-black-rgb), 0.06);
+      }
+
+      &.disabled {
+        background: var(--color-gray-200);
+        border-color: transparent;
+        pointer-events: none;
+      }
+    }
+  }
+
+  &.shape {
+    &-square {
+      border-radius: 8px;
+    }
+
+    &-round {
+      border-radius: 100px;
+    }
+  }
+
+  &.size {
+    &-large {
+      padding: 9px 15px;
+    }
+
+    &-normal {
+      padding: 7px 15px;
+    }
+
+    &-small {
+      padding: 5px 11px;
+    }
+  }
+}

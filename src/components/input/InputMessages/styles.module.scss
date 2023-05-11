@@ -1,0 +1,25 @@
+@use '../../../styles/utils';
+
+.messages {
+  display: flex;
+  align-items: center;
+
+  .error-message {
+    flex: 1;
+    color: var(--color-red-500);
+  }
+
+  .length-message {
+    margin-left: auto;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: right;
+
+    @include utils.transition();
+
+    &.error {
+      color: var(--color-red-500);
+    }
+  }
+}

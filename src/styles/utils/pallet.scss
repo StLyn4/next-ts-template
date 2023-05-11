@@ -1,0 +1,49 @@
+@use 'sass:map';
+@use 'sass:list';
+@use 'sass:color';
+
+@use '../utils/color' as color-utils;
+@use '../utils/list' as list-utils;
+
+/// Получение значений RGB каналов указанного цвета
+///
+/// @group pallet-utils
+/// @param {Color} $color - Цвет
+/// @returns {List<Number>} - RGB каналы цвета
+@function rgb-channels($color) {
+  $rgba-channels: color-utils.rgba-channels($color);
+  $rgb-channels: list-utils.remove-nth($rgba-channels, -1);
+  @return list-utils.style($rgb-channels, $separator: comma, $bracketed: false);
+}
+
+/// Генерация расширенной информации о цвете
+///
+/// @group pallet-utils
+/// @param {String} $name - Название цвета
+/// @param {Color} $color - Цвет
+/// @returns {Map} - Расширенная информация о цвете (с контрастным цветом и записью в RGB формате)
+@function create-extended-color($name, $color) {
+  $contrast: color-utils.contrast($color);
+  @return (
+    '#{$name}': $color,
+    '#{$name}-rgb': rgb-channels($color),
+    '#{$name}-contrast': $contrast,
+    '#{$name}-contrast-rgb': rgb-channels($contrast),
+  );
+}
+
+/// Генерация расширенной палитры цветов
+/// (добавляется информация о контрастном цвете, а также запись в формате rgb)
+///
+/// @group misc-utils
+/// @param {Map} $colors - Палитра цветов
+/// @returns {Map} - Палитра в расширенном формате
+@function create-extended-pallet($colors-pallet) {
+  $extended-pallet: ();
+
+  @each $name, $color in $colors-pallet {
+    $extended-pallet: map.merge($extended-pallet, create-extended-color($name, $color));
+  }
+
+  @return $extended-pallet;
+}

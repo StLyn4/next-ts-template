@@ -1,0 +1,18 @@
+{
+  "header": {
+    "components": "Components",
+    "second-page": "Second page"
+  },
+  "footer": {
+    "copyright": "[v.{{version}}] Copyright {{year}} Vsevolod Volkov"
+  },
+  "map": {
+    "search": {
+      "placeholder": "Find device"
+    },
+    "styles": {
+      "standard": "View",
+      "satellite": "Satellite"
+    }
+  }
+}

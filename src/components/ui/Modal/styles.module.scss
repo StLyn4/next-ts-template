@@ -1,0 +1,69 @@
+@use '../../../styles/utils';
+@use '../../../styles/text';
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+
+  .backdrop {
+    all: unset;
+    background: var(--color-slate-700);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .card {
+    background: var(--color-white);
+    padding: 20px;
+    box-shadow: 0 25px 50px -12px rgba(var(--color-black-rgb), 0.25);
+    position: relative;
+    z-index: 1;
+
+    @include utils.breakpoint-is('xs') {
+      width: calc(100% - 32px);
+    }
+
+    @include utils.breakpoint-bigger('sm') {
+      min-width: 540px;
+      margin: 16px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+
+      .label {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 20px;
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      margin-top: 40px;
+
+      .confirm-button {
+        margin-left: auto;
+      }
+    }
+  }
+}

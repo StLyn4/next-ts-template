@@ -1,0 +1,31 @@
+# Не игнорируем файлы, которые начинаются с точки
+!.*
+
+# Зависимости:
+/node_modules/
+/.pnp/
+/.pnp.js
+
+# Next.js:
+/.next/
+/build/
+/dist/
+/out/
+/next-env.d.ts
+
+# Vercel:
+.vercel/
+
+# Сборка Storybook:
+/storybook-static/
+
+# Результаты тестирования:
+/coverage/
+
+# Временные файлы:
+/temp/
+/.tmp/
+/tmp/
+
+# Кэш:
+.cache/

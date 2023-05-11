@@ -1,0 +1,30 @@
+@use '../../../styles/utils';
+
+.avatar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-white);
+  color: var(--color-emerald-600);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--color-emerald-600);
+  text-align: center;
+  font-weight: bold;
+  position: relative;
+
+  &.no-selection {
+    user-select: none;
+  }
+
+  .medium-label {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .small-label {
+    font-size: 14px;
+    line-height: 16px;
+  }
+}

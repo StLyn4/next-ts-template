@@ -1,0 +1,17 @@
+@use '../../../styles/utils';
+@use '../../../styles/text';
+
+.attachment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: var(--color-emerald-600);
+  padding: 2px 8px;
+  border-radius: 4px;
+
+  .filename {
+    @include text.button-2;
+    color: var(--color-emerald-600-contrast);
+  }
+}

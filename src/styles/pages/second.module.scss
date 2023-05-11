@@ -1,0 +1,16 @@
+@use '../utils';
+@use '../text';
+
+.title {
+  @include text.h6;
+}
+
+.centered {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  padding: 40px 20px;
+}

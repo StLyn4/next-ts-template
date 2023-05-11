@@ -1,0 +1,68 @@
+@use '../../../styles/utils';
+@use '../../../styles/text';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 80px;
+  width: 100%;
+  padding: 20px 40px;
+  background: var(--color-white);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+
+    .navigation {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .langs {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      .lang-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        color: var(--color-slate-700);
+
+        &:not(:last-child):after {
+          content: '|';
+        }
+
+        .lang {
+          font-size: 16px;
+          color: var(--color-slate-500);
+
+          @include utils.transition();
+
+          &.active,
+          &:hover {
+            color: var(--color-slate-700);
+          }
+        }
+      }
+    }
+  }
+}

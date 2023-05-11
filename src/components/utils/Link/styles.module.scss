@@ -1,0 +1,13 @@
+@use '../../../styles/utils';
+
+.link {
+  display: contents;
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  &:not(.disabled) > a {
+    display: contents;
+  }
+}

@@ -1,0 +1,107 @@
+@use 'sass:color';
+@use 'sass:math';
+@use 'sass:list';
+@use 'sass:map';
+
+/// Получение списка c информацией о каждом цветовом канале по отдельности
+///
+/// @group color-utils
+/// @param {Color} $color - Цвет
+/// @returns {List<Number>} - Список c информацией о каждом цветовом канале
+@function rgba-channels($color) {
+  $r: color.red($color);
+  $g: color.green($color);
+  $b: color.blue($color);
+  $a: color.alpha($color);
+
+  @return ($r, $g, $b, $a);
+}
+
+/// Получение списка цветов от `$start-color` до `$end-color` в указанном количестве
+///
+/// @group color-utils
+/// @param {Color} $start-color - Изначальный цвет
+/// @param {Color} $end-color - Конечный цвет
+/// @param {Number} $steps - Необходимое количество цветов (минимум 2)
+/// @returns {List<Color>} - Список цветом
+@function steps($start-color, $end-color, $steps) {
+  $result: ();
+
+  @for $i from 0 to $steps {
+    $color: color.mix($end-color, $start-color, math.percentage(calc($i / ($steps - 1))));
+    $result: list.append($result, $color);
+  }
+
+  @return $result;
+}
+
+/// Получение относительной яркости цвета
+///
+/// @group color-utils
+/// @param {Color} $color - Цвет
+/// @returns {Number} - Относительная яркость от 0 (чёрный) до 1 (белый)
+/// @link https://en.wikipedia.org/wiki/Relative_luminance
+@function luminance($color) {
+  $channels: (
+    'red': color.red($color),
+    'green': color.green($color),
+    'blue': color.blue($color)
+  );
+
+  @each $name, $value in $channels {
+    $value: calc($value / 255);
+    @if $value < 0.03928 {
+      $value: calc($value / 12.92);
+    } @else {
+      $value: math.pow(calc(($value + 0.055) / 1.055), 2.4);
+    }
+    $channels: map.set($channels, $name, $value);
+  }
+
+  $r: map.get($channels, 'red');
+  $g: map.get($channels, 'green');
+  $b: map.get($channels, 'blue');
+
+  @return $r * 0.2126 + $g * 0.7152 + $b * 0.0722;
+}
+
+/// Получение контрастного цвета
+///
+/// @group color-utils
+/// @param {Color} $background - Цвет фона, относительно которого будет подобран контрастный цвет
+/// @param {Color} $dark [#000000] - Тёмный цвет, который будет возращён для светлых фонов
+/// @param {Color} $light [#FFFFFF] - Светлый цвет, который будет возращён для тёмных фонов
+/// @returns {Color} - $dark / $light, в зависимости от $background
+@function contrast($background, $dark: #000000, $light: #FFFFFF) {
+  $bg-luminance: luminance($background);
+  $dark-luminance: luminance($dark);
+  $contrast-ratio: 0;
+
+  @if ($bg-luminance > $dark-luminance) {
+    $contrast-ratio: calc(($bg-luminance + 0.05) / ($dark-luminance + 0.05));
+  } @else {
+    $contrast-ratio: calc(($dark-luminance + 0.05) / ($bg-luminance + 0.05));
+  }
+
+  @return if($contrast-ratio >= 4.5, $dark, $light);
+}
+
+/// Затемнение цвета
+///
+/// @group color-utils
+/// @param {Color} $color - Цвет
+/// @param {Number} $weight - На сколько процентов темнее (чернее) сделать
+/// @returns {Color} - Изменённый цвет
+@function shade($color, $weight) {
+  @return color.mix(#000000, $color, $weight);
+}
+
+/// Осветление цвета
+///
+/// @group color-utils
+/// @param {Color} $color - Цвет
+/// @param {Number} $weight - На сколько процентов светлее (белее) сделать
+/// @returns {Color} - Изменённый цвет
+@function tint($color, $weight) {
+  @return color.mix(#FFFFFF, $color, $weight);
+}

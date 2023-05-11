@@ -1,0 +1,15 @@
+@use 'themes/tailwind-light';
+
+@use '../utils/string' as string-utils;
+
+// Экспортируем все темы как один объект
+$themes: (
+  '#{tailwind-light.$id}': (
+    'id': tailwind-light.$id,
+    'camel-id': string-utils.change-case(tailwind-light.$id, 'camel'),
+    'name': tailwind-light.$name,
+    'color-scheme': tailwind-light.$color-scheme,
+    'pallet': tailwind-light.$pallet,
+    'extended-pallet': tailwind-light.$extended-pallet,
+  ),
+);

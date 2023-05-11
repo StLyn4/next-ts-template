@@ -1,0 +1,103 @@
+// Удаляем внутренние отступы и стандартную стилизацию для всех ul и ol, у которых есть атрибут class
+ul[class],
+ol[class] {
+  padding: 0;
+  list-style: none;
+}
+
+// Убираем внешние отступы
+body,
+p,
+ul,
+ol,
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+// Сброс стилей оглавлений
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+  font-size: inherit;
+  margin: 0;
+}
+
+// Плавная прокрутка по умолчанию
+html {
+  scroll-behavior: smooth;
+}
+
+// Убираем "украшательства" с элементов a
+a {
+  text-decoration: none;
+  color: #000000;
+}
+
+// Упрощаем работу с изображениями
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+  max-width: 100%;
+}
+
+// Наследуем шрифты для полей ввода и кнопок
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+input,
+textarea {
+  // Отключаем доп. кнопки в Chrome, Safari, Edge, Opera
+  &::before,
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    display: none;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  // Отключаем доп. кнопки в Firefox
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  // В некоторых случаях отключённые поля ввода становятся частично прозразными
+  &:disabled {
+    opacity: 1;
+  }
+}
+
+// Отключаем все анимации и переходы для людей, которые предпочитают их не использовать
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

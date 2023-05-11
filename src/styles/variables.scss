@@ -1,0 +1,18 @@
+$transition-duration: 300ms;
+$transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+$transition-timing-function-args: (0.645, 0.045, 0.355, 1);
+
+// color-scheme (light | dark) -> ID темы
+$default-themes: (
+  'light': 'tailwind-light',
+  'dark': 'tailwind-light',
+);
+
+// Название контрольной точки -> её минимальный размер
+$breakpoints: (
+  'xs': 0,
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px,
+);

@@ -1,0 +1,32 @@
+@use '../../../../styles/utils';
+@use '../../../../styles/text';
+
+.styles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 6px;
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    width: 160px;
+    height: 100px;
+    overflow: hidden;
+
+    @include utils.transition();
+
+    .preview {
+      object-fit: cover;
+    }
+
+    .label {
+      background: var(--color-gray-50);
+      color: var(--color-gray-900);
+      padding: 2px 4px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+}

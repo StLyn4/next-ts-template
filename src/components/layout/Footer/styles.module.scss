@@ -1,0 +1,17 @@
+@use '../../../styles/utils';
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 15px 30px;
+  background: var(--color-emerald-600);
+  z-index: 10;
+
+  .text {
+    color: var(--color-emerald-600-contrast);
+    font-size: 15px;
+    line-height: 18px;
+  }
+}

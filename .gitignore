@@ -1,0 +1,86 @@
+# Зависимости:
+/node_modules/
+/.pnp/
+.pnp.js
+
+# Next.js:
+/.next/
+/build/
+/dist/
+/out/
+/next-env.d.ts
+
+# Локальные файлы переменных среды:
+.env
+.env*.local
+
+# Сборка Storybook:
+/storybook-static/
+
+# Сгенерированные файлы для индексаторов страниц:
+/public/robots.txt
+/public/sitemap*.xml
+
+# Результаты тестирования:
+/coverage/
+
+# Временные файлы:
+/temp/
+/.tmp/
+/tmp/
+
+# Логи:
+*.log
+
+# Кэш:
+.cache/
+.eslintcache
+
+# TypeScript:
+*.tsbuildinfo
+
+# [JetBrains] Пользовательские настройки:
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+
+# [JetBrains] Персональные данные:
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+
+# Node.js:
+lib-cov
+lcov.info
+pids
+logs
+results
+node_modules
+.node_history
+
+# Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Mac OS X:
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+.Spotlight-V100
+.Trashes
+._*
+
+# Разное:
+*.pem

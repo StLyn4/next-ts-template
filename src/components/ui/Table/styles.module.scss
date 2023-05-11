@@ -1,0 +1,90 @@
+@use '../../../styles/utils';
+@use '../../../styles/text';
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  table.table {
+    display: grid;
+    grid-auto-rows: min-content;
+    flex: 1;
+    width: 100%;
+    position: relative;
+
+    thead,
+    tbody,
+    tr {
+      display: contents;
+    }
+
+    th,
+    td, {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      &.cell-align-left {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      &.cell-align-center {
+        align-items: center;
+        text-align: center;
+      }
+
+      &.cell-align-right {
+        align-items: flex-end;
+        text-align: right;
+      }
+
+      &.cell-align-stretch {
+        align-items: stretch;
+        text-align: left;
+      }
+    }
+
+    th {
+      @include text.body-2;
+
+      background: var(--color-slate-50);
+      color: var(--color-slate-700);
+      padding: 4px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+
+      &:first-child {
+        border-radius: 4px 0 0 4px;
+        padding-left: 8px;
+      }
+
+      &:last-child {
+        border-radius: 0 4px 4px 0;
+        padding-right: 8px;
+      }
+    }
+
+    td {
+      padding: 24px 4px 4px 4px;
+      color: var(--color-slate-700);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 22px;
+
+      &:first-child {
+        padding-left: 8px;
+      }
+
+      &:last-child {
+        padding-right: 8px;
+      }
+    }
+
+    tbody > tr:first-child > td {
+      padding-top: 15px;
+    }
+  }
+}

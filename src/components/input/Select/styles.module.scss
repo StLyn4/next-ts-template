@@ -1,0 +1,14 @@
+@use '../../../styles/utils';
+@use '../../../styles/text';
+
+.select {
+  .list {
+    .item {
+      padding: 8px 24px;
+
+      &:hover {
+        background: var(--color-blue-50);
+      }
+    }
+  }
+}

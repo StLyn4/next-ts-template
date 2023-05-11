@@ -1,0 +1,133 @@
+@use 'sass:selector';
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:math';
+
+@use '../utils/list' as list-utils;
+@use '../variables';
+
+/// Зависимые от темы стили
+///
+/// @group misc-utils
+/// @param {String} $theme-id - ID темы для которой будут применены стили
+/// @content Стили, которые применяются только когда активна указанная тема
+/// @output Содержимое блока, если активна указанная тема
+///
+/// @example scss - Применить свойство `background` для класса `.foo` в зависимости от темы
+///   .foo {
+///     @include utils.theme('light') {
+///       // Белый фон только для темы с ID `light`
+///       background: #FFFFFF;
+///     }
+///
+///     @include utils.theme('dark') {
+///       // Чёрный фон только для темы с ID `dark`
+///       background: #000000;
+///     }
+///   }
+@mixin theme($theme-id) {
+  // Значения по умолчанию, которые не будут изменены, если миксин вызван на верхнем уровне
+  $selector-with-theme: 'html[data-theme="#{$theme-id}"]';
+  $selector-without-theme: 'html:not([data-theme])';
+
+  // Выбрана ли указанная тема по умолчанию для той или иной цветовой схемы
+  $is-default-light-theme: $theme-id == map.get(variables.$default-themes, 'light');
+  $is-default-dark-theme: $theme-id == map.get(variables.$default-themes, 'dark');
+
+  // Используется ли тема по умолчанию хотя бы для какой-то цветовой схемы
+  $is-default-theme: $is-default-light-theme or $is-default-dark-theme;
+
+  // Используем ли мы одну и ту же тему по умолчанию как для светлой цветовой схемы, так и для тёмной
+  $is-universal-default-theme: $is-default-light-theme and $is-default-dark-theme;
+
+  @if & {
+    // Добавляем к элементу html в селекторе атрибуты темы
+    $parsed-selector: selector.parse(&);
+    $selector-with-theme: selector.replace(&, 'html', 'html[data-theme="#{$theme-id}"]');
+    $selector-without-theme: selector.replace(&, 'html', 'html:not([data-theme])');
+
+    // Селектор не изменился, а значит, элемента html в нём нет и нам нужно добавить самим
+    @if $selector-with-theme == $parsed-selector {
+      $selector-with-theme: 'html[data-theme="#{$theme-id}"] #{$selector-with-theme}';
+      $selector-without-theme: 'html:not([data-theme]) #{$selector-without-theme}';
+    }
+  }
+
+  // На случай, если тема указана вручную в атрибутах html (через JS, либо предварительно в разметке)
+  @if not $is-universal-default-theme {
+    @at-root #{$selector-with-theme} {
+      @content;
+    }
+  }
+
+  // На случай если тема указана вручную, и используется по умолчанию во всех цветовых схемах
+  @if $is-default-theme and $is-universal-default-theme {
+    @at-root #{$selector-with-theme}, #{$selector-without-theme} {
+      @content;
+    }
+  }
+
+  // На случай, если атрибут не указан и тема используется по умолчанию только в одной цветовой схеме
+  @if $is-default-theme and not $is-universal-default-theme {
+    @at-root #{$selector-without-theme} {
+      @each $color-scheme, $id in variables.$default-themes {
+        @if $id == $theme-id {
+          @media (prefers-color-scheme: $color-scheme) {
+            @content;
+          }
+        }
+      }
+    }
+  }
+}
+
+/// Плавные переходы для выбранных свойств селектора
+///
+/// @group misc-utils
+/// @param {Number} $duration [300ms] - Скорость перехода
+/// @param {List} $properties [all] - Список свойств, которые будут анимированны
+/// @output cubic-bezier `transition`
+///
+/// @example scss - Применить свойство `transition` с длительностью `1s` для всех свойств класса `.foo`
+///   .foo {
+///     @include utils.transition(1s);
+///   }
+///
+/// @example scss - Применить свойство `transition` с длительностью `300ms` для свойства `background` класса `.foo`
+///   .foo {
+///     @include utils.transition($properties: [background]);
+///   }
+@mixin transition($duration: variables.$transition-duration, $properties: all) {
+  transition-duration: $duration;
+  transition-timing-function: variables.$transition-timing-function;
+  transition-property: list-utils.style($properties, $separator: comma, $bracketed: false);
+}
+
+/// Ограничивает текст указанным количеством строк, обрезая остальное многоточием
+///
+/// @group misc-utils
+/// @param {Number} $lines-count [1] - Сколько строк можно отображать
+/// @param {Boolean} $is-inline [false] - Является ли текст строчным (inline), или же он блочный (`span` vs `p`)
+/// @output Ограничитель текста по количеству строк. Меняет значения свойств `overflow` и `display`!
+///
+/// @example scss - Обрезаем содержимое параграфа с классом `.foo`, если он больше 2-х строк
+///   p.foo {
+///     @include utils.line-clamp(2);
+///   }
+@mixin line-clamp($lines-count: 1, $is-inline: false) {
+  // Пусть и имеется вендорный префикс, поддержка распространяется на все современные браузеры
+  display: if($is-inline, -webkit-inline-box, -webkit-box);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines-count;
+}
+
+/// Убирает единицы измерения числа (например, 100px -> 100)
+///
+/// @group misc-utils
+/// @param {Number} $number - Число
+/// @returns То же самое число, но без единиц измерения
+@function strip-units($number) {
+  @return math.div($number, $number * 0 + 1);
+}

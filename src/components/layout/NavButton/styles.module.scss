@@ -1,0 +1,17 @@
+@use '../../../styles/utils';
+
+.nav-button {
+  color: var(--color-slate-500);
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 20px;
+
+  @include utils.transition();
+
+  &.active {
+    color: var(--color-slate-900);
+    border-color: var(--color-slate-900);
+  }
+}

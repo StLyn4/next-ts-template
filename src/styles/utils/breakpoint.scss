@@ -1,0 +1,166 @@
+@use 'sass:meta';
+@use 'sass:list';
+@use 'sass:map';
+
+@use 'misc' as misc-utils;
+@use '../variables';
+
+$-breakpoint-names: map.keys(variables.$breakpoints);
+
+/// Получение название следующей контрольной точки большего размера
+///
+/// @group breakpoint-utils
+/// @param {String} $name - Название контрольной точки
+/// @returns {String | Null} - Название большей контрольной точки (или null, если её нет)
+@function next($name) {
+  $index: list.index($-breakpoint-names, $name);
+
+  @if not $index {
+    @error 'Контрольная точка `#{$name}` не найдена, доступные: #{$-breakpoint-names}';
+  }
+
+  @return if($index < list.length($-breakpoint-names), list.nth($-breakpoint-names, $index + 1), null);
+}
+
+/// Получение минимального размера контрольной точки
+///
+/// @group breakpoint-utils
+/// @param {String} $name - Название контрольной точки
+/// @returns {Number} - Минимальная ширина вьюпорта для указанной контрольной точки
+@function min-width($name) {
+  @if not map.has-key(variables.$breakpoints, $name) {
+    @error 'Контрольная точка `#{$name}` не найдена, доступные: #{$-breakpoint-names}';
+  }
+
+  $min: map.get(variables.$breakpoints, $name);
+  @return if(misc-utils.strip-units($min) != 0, $min, 0);
+}
+
+/// Получение максимального размера контрольной точки
+///
+/// @group breakpoint-utils
+/// @param {String} $name - Название контрольной точки
+/// @returns {Number} - Максимальная ширина вьюпорта для указанной контрольной точки
+@function max-width($name) {
+  @if not map.has-key(variables.$breakpoints, $name) {
+    @error 'Контрольная точка `#{$name}` не найдена, доступные: #{$-breakpoint-names}';
+  }
+
+  $max: map.get(variables.$breakpoints, next($name));
+  @return if($max and $max > 0, $max - 0.02, null);
+}
+
+/// Адаптивные стили
+///
+/// @group breakpoint-utils
+/// @param {String | Number} $name-or-size - Название минимальной контрольной точки, либо указанный размер
+/// @content Стили для выбранного размера
+/// @output Содержимое блока, если ширина вьюпорта больше либо равна необходимой
+///
+/// @example scss - Применить свойство `background` для класса `.foo` в зависимости от размера вьюпорта
+///   .foo {
+///     @include utils.breakpoint-bigger('sm') {
+///       // Применяем белый цвет только если ширина вьюпорта больше 576px (котрольная точка `sm`)
+///       background: #FFFFFF;
+///     }
+///
+///     @include utils.breakpoint-bigger(600px) {
+///       // Применяем синий цвет только если ширина вьюпорта больше 600px
+///       background: #0000FF;
+///     }
+///   }
+@mixin bigger($name-or-size) {
+  $min: if(meta.type-of($name-or-size) == 'number', $name-or-size, min-width($name-or-size));
+
+  @if $min != 0 {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+/// Адаптивные стили
+///
+/// @group breakpoint-utils
+/// @param {String | Number} $name-or-size - Название максимальной контрольной точки, либо указанный размер
+/// @content Стили для выбранного размера
+/// @output Содержимое блока, если ширина вьюпорта меньше либо равна необходимой
+///
+/// @example scss - Применить свойство `background` для класса `.foo` в зависимости от размера вьюпорта
+///   .foo {
+///     @include utils.breakpoint-smaller('lg') {
+///       // Применяем белый цвет только если ширина вьюпорта меньше 1199.98px (немного меньше контрольной точки `xl`)
+///       background: #FFFFFF;
+///     }
+///
+///     @include utils.breakpoint-smaller(600px) {
+///       // Применяем синий цвет только если ширина вьюпорта меньше 600px
+///       background: #0000FF;
+///     }
+///   }
+@mixin smaller($name-or-size) {
+  $max: if(meta.type-of($name-or-size) == 'number', $name-or-size, max-width($name-or-size));
+
+  @if $max {
+    @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+/// Адаптивные стили
+///
+/// @group breakpoint-utils
+/// @param {String | Number} $lower-name-or-size - Название минимальной контрольной точки, либо указанный размер
+/// @param {String | Number} $upper-name-or-size - Название максимальной контрольной точки, либо указанный размер
+/// @content Стили для выбранного размера
+/// @output Содержимое блока, если ширина вьюпорта больше `$lower-name` и меньше `$upper-name` (включительно)
+///
+/// @example scss - Применить свойство `background` для класса `.foo` в зависимости от размера вьюпорта
+///   .foo {
+///     @include utils.breakpoint-between('md', 1000px) {
+///       // Применяем белый цвет только если ширина вьюпорта больше 768px (котрольная точка `md`) и меньше 1000px
+///       background: #FFFFFF;
+///     }
+///   }
+@mixin between($lower-name-or-size, $upper-name-or-size) {
+  $min: if(meta.type-of($lower-name-or-size) == 'number', $lower-name-or-size, min-width($lower-name-or-size));
+  $max: if(meta.type-of($upper-name-or-size) == 'number', $upper-name-or-size, max-width($upper-name-or-size));
+
+  @if $min != 0 and $max {
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else if not $max {
+    @include bigger($lower-name-or-size) {
+      @content;
+    }
+  } @else if $min == 0 {
+    @include smaller($upper-name-or-size) {
+      @content;
+    }
+  }
+}
+
+/// Адаптивные стили
+///
+/// @group breakpoint-utils
+/// @param {String} $name - Название контрольной точки
+/// @content Стили для выбранного размера
+/// @output Содержимое блока, если ширина вьюпорта в точности соответствует выбранной контрольной точке
+/// @example scss - Применить свойство `background` для класса `.foo` в зависимости от размера вьюпорта
+///   .foo {
+///     @include utils.breakpoint-is('md') {
+///       // Применяем белый цвет только если ширина вьюпорта больше 768px (котрольная точка `md`) и меньше 1199.98px
+///       background: #FFFFFF;
+///     }
+///   }
+@mixin is($name) {
+  @include between($name, $name) {
+    @content;
+  }
+}

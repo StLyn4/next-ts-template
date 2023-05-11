@@ -1,0 +1,25 @@
+{
+  "general-title": "Next.js Template",
+  "general-description": "Next.js template with TypeScript, blackjack and good stuff",
+  "buttons": {
+    "back": "Back",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "create": "Create",
+    "close": "Close",
+    "delete": "Delete",
+    "next": "Next",
+    "okay": "Okay",
+    "save": "Save",
+    "save-and-exit": "Save and exit",
+    "send": "Send",
+    "select": "Select",
+    "start": "Start",
+    "skip": "Skip"
+  },
+  "errors": {},
+  "validation-errors": {
+    "invalid-email": "Invalid email address",
+    "invalid-password": "The password must be at least 8 characters long, contain both lowercase (a-z) and uppercase (A-Z) letters, numbers, as well as at least one special character (~@#$%^&*+=`|{}:;! .?\"()[]-)"
+  }
+}

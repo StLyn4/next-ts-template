@@ -1,0 +1,55 @@
+@use 'sass:map';
+
+// Нормализация стилей между браузерами, сброс части встроенных стилей
+@use 'modern-normalize/modern-normalize.css';
+@use 'reset';
+
+// Инициализация шрифтов и тем
+@use 'utils';
+@use 'text';
+@use 'themes';
+@use 'themes/extra-styles';
+
+// Подключение тем
+@each $theme-id, $theme in themes.$themes {
+  @include utils.theme($theme-id) {
+    // Добавление переменных с цветами и их дополнительными параметрами
+    @each $property-name, $value in map.get($theme, 'extended-pallet') {
+      --color-#{$property-name}: #{$value};
+    }
+  }
+}
+
+// Объявление стилей по умолчанию для текста
+body {
+  @include text.body-1;
+
+  min-width: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  background: var(--color-white);
+}
+
+h1 {
+  @include text.h1;
+}
+
+h2 {
+  @include text.h2;
+}
+
+h3 {
+  @include text.h3;
+}
+
+h4 {
+  @include text.h4;
+}
+
+h5 {
+  @include text.h5;
+}
+
+h6 {
+  @include text.h6;
+}

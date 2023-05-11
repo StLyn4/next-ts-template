@@ -1,0 +1,43 @@
+# Зависимости:
+/node_modules/
+/.pnp/
+/.pnp.js
+
+# Next.js:
+/.next/
+/build/
+/dist/
+/out/
+
+# Vercel:
+.vercel/
+
+# Сборка Storybook:
+/storybook-static/
+
+# Результаты тестирования:
+/coverage/
+
+# Временные файлы:
+/temp/
+/.tmp/
+/tmp/
+
+# Кэш:
+.cache/
+
+# Lock-файлы:
+yarn.lock
+package-lock.json
+
+# Файлы JavaScript (их обработкой занимается ESLint):
+*.js
+*.cjs
+*.mjs
+*.jsx
+
+# Файлы TypeScript (их обработкой занимается ESLint):
+*.ts
+*.cts
+*.mts
+*.tsx

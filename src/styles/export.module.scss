@@ -1,0 +1,26 @@
+@use 'sass:map';
+
+@use 'utils';
+@use 'variables';
+@use 'themes';
+
+$breakpoint-bounds: ();
+@each $breakpoint-name, $breakpoint-value in variables.$breakpoints {
+  $breakpoint-bounds: map.set($breakpoint-bounds, $breakpoint-name, (
+    'min-width': utils.breakpoint-min-width($breakpoint-name),
+    'max-width': utils.breakpoint-max-width($breakpoint-name),
+  ));
+}
+
+:export {
+  transitionDuration: variables.$transition-duration;
+  transitionTimingFunction: variables.$transition-timing-function;
+  transitionTimingFunctionArgs: utils.json-stringify(variables.$transition-timing-function-args);
+
+  breakpointNames: utils.json-stringify(map.keys(variables.$breakpoints));
+  breakpointBounds: utils.json-stringify($breakpoint-bounds);
+  breakpoints: utils.json-stringify(variables.$breakpoints);
+
+  defaultThemes: utils.json-stringify(variables.$default-themes);
+  themes: utils.json-stringify(themes.$themes);
+}

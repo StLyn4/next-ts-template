@@ -1,0 +1,18 @@
+{
+  "header": {
+    "components": "Компоненты",
+    "second-page": "Вторая страница"
+  },
+  "footer": {
+    "copyright": "[v.{{version}}] Copyright {{year}} Всеволод Волков"
+  },
+  "map": {
+    "search": {
+      "placeholder": "Найти устройство"
+    },
+    "styles": {
+      "standard": "Просмотр",
+      "satellite": "Спутник"
+    }
+  }
+}

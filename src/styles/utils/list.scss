@@ -1,0 +1,37 @@
+@use 'sass:list';
+
+/// Изменение стиля записи списка
+///
+/// @group list-utils
+/// @param {List} $list - Список
+/// @param {comma | space} $separator - Разделитель списка
+/// @param {Boolean} $bracketed - Обёрнут ли список в квадратные скобки
+/// @returns {List} - Тот же список, но с другим стилем записи
+@function style($list, $separator: auto, $bracketed: auto) {
+  @return list.join($list, (), $separator, $bracketed);
+}
+
+/// Удаление элемента списка
+///
+/// @group list-utils
+/// @param {List} $list - Список
+/// @param {Number} $index - Индекс элемента, который необходимо удалить
+/// @returns {List} - Отфильтрованный список
+@function remove-nth($list, $index) {
+  $result: ();
+  $separator: list.separator($list);
+  $bracketed: list.is-bracketed($list);
+
+  @if $index < 0 {
+    // Поддержки индексации с конца
+    $index: list.length($list) + $index + 1;
+  }
+
+  @for $i from 1 through list.length($list){
+    @if $i != $index {
+      $result: list.append($result, list.nth($list, $i));
+    }
+  }
+
+  @return style($result, $separator, $bracketed);
+}

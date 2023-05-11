@@ -1,0 +1,19 @@
+{
+  "title": "Demonstration of components",
+  "description": "Component demo page",
+  "sections": {
+    "logos": "Logos",
+    "vectors": "Vector images, loading indicators",
+    "avatars": "Avatars",
+    "interactive": "Interactive zone",
+    "buttons": "Buttons",
+    "dividers": "Dividers",
+    "placeholder": "Image placeholders",
+    "links": "Links",
+    "modals": "Modals",
+    "progress-bars": "Progress bars",
+    "inputs": "Inputs",
+    "checkboxes": "Checkboxes",
+    "responsive": "Responsive"
+  }
+}

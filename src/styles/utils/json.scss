@@ -1,0 +1,103 @@
+@use 'sass:string';
+@use 'sass:math';
+@use 'sass:meta';
+
+@use 'string' as string-utils;
+
+/// Запаковывает логическое значение в JSON формат
+///
+/// @group json-utils
+/// @param {Boolean} $boolean - Логическое значение
+/// @returns {boolean} - Запакованное логическое значение
+@function -encode-bool($boolean) {
+  @return $boolean;
+}
+
+/// Запаковывает цвет в JSON формат
+///
+/// @group json-utils
+/// @param {Color} $color - Цвет
+/// @returns {String} - Запакованный цвет
+@function -encode-color($color) {
+  @return string-utils.quote-wrap($color);
+}
+
+/// Запаковывает null в JSON формат
+///
+/// @group json-utils
+/// @param {Null} $null - null
+/// @returns {String} - null
+@function -encode-null($null) {
+  @return 'null';
+}
+
+/// Запаковывает число в JSON формат
+///
+/// @group json-utils
+/// @param {Number} $number - Число
+/// @returns {String} - Запакованное число
+@function -encode-number($number) {
+  @return if(math.is-unitless($number), $number, string-utils.quote-wrap($number));
+}
+
+/// Запаковывает строку в JSON формат
+///
+/// @group json-utils
+/// @param {String} $string - Строка
+/// @returns {String} - Запакованная строка
+@function -encode-string($string) {
+  @return string-utils.quote-wrap($string);
+}
+
+/// Запаковывает список в JSON формат
+///
+/// @group json-utils
+/// @param {List} $list - Список
+/// @returns {String} - Запакованный список
+@function -encode-list($list) {
+  $str: '';
+
+  @each $item in $list {
+    $str: $str + ', ' + stringify($item, false);
+  }
+
+  @return '[' + string.slice($str, 3) + ']';
+}
+
+/// Запаковывает карту значений в JSON формат
+///
+/// @group json-utils
+/// @param {Map} $map - Карта значений
+/// @returns {String} - Запакованная карта значений
+@function -encode-map($map) {
+  $str: '';
+
+  @each $key, $value in $map {
+    $camel-case-key: string-utils.change-case(#{$key}, 'camel');
+    $str: $str + ', ' + string-utils.quote-wrap($camel-case-key) + ': ' + stringify($value, false);
+  }
+
+  @return '{' + string.slice($str, 3) + '}';
+}
+
+/// Запаковывает значение в JSON формат
+///
+/// @group json-utils
+/// @param {*} $value - Значение для запаковки
+/// @returns {String} - Запакованное в JSON формат значение
+@function stringify($value, $is-top-level: true) {
+  $type: meta.type-of($value);
+  $function: '-encode-#{$type}';
+
+  @if function-exists('get-function') {
+    $function: meta.get-function($function);
+  }
+
+  @if function-exists('-encode-#{$type}') {
+    $encoded-value: meta.call($function, $value);
+    // На верхнем уровне необходимо использовать unquote, чтобы работало экранирование
+    @return if($is-top-level, string.unquote('"#{$encoded-value}"'), $encoded-value);
+  }
+
+  @error 'Неизвестный тип значения `#{$value}`: (#{$type}).';
+}
